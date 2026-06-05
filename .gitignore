@@ -1,0 +1,17 @@
+# Scripts de procesamiento (no se suben a GitHub Pages)
+*.py
+
+# Archivos temporales HTML
+index_clean.html
+index_fixed.html
+index_rebuilt.html
+test.html
+
+# Datos temp
+calendario.csv
+calendario.md
+formato.py
+gen_html.py
+
+# Convertidos temp
+_converted/

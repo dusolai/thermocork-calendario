@@ -1,0 +1,3043 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Calendario Redes Sociales — THERMOCORK · 3 Meses · 90 Posts</title>
+<style>
+  :root { --ig:#E1306C; --fb:#1877F2; --li:#0A66C2; --bg:#f6f1e7; --card:#fff; --text:#1a1611; --muted:#6b5e4b; --gold:#C9A045; --line:#e7dfce; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Segoe UI',sans-serif; background:var(--bg); color:var(--text); padding:24px; }
+  .container { max-width:1400px; margin:0 auto; }
+  
+  header.stats { background:linear-gradient(135deg,#1a5a7a,#0f3d56); color:#fff; padding:28px 24px; border-radius:14px; margin-bottom:24px; }
+  header.stats h1 { font-size:1.8rem; margin-bottom:6px; }
+  .metrics { display:flex; gap:18px; flex-wrap:wrap; }
+  .metric { background:rgba(255,255,255,.12); padding:14px 18px; border-radius:10px; min-width:140px; }
+  .metric strong { display:block; font-size:1.4rem; }
+  
+  .month-section { margin-bottom:40px; }
+  .month-title { font-size:1.5rem; padding:14px 18px; background:#fff; border-left:6px solid var(--gold); border-radius:0 14px 14px 0; margin-bottom:18px; }
+  
+  /* GRID CRITICO: 3 columnas siempre, nunca mas ni menos hasta 1100px */
+  .days { display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; align-items:start; }
+  @media (max-width:1100px) { .days { grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:700px) { .days { grid-template-columns:1fr; } }
+  
+  .day-card { background:var(--card); border-radius:14px; box-shadow:0 2px 10px rgba(0,0,0,.06); overflow:hidden; width:100%; }
+  .day-header { background:#f8fafc; padding:10px 16px; font-weight:700; color:#0f3d56; border-bottom:1px solid var(--line); font-size:.95rem; }
+  
+  article.card { border-top:1px solid var(--line); width:100%; overflow:hidden; }
+  article.card > header { padding:14px 16px; background:#fff; }
+  article.card h3 { margin:8px 0 4px; font-size:1.05rem; color:#111; line-height:1.3; }
+  .plat { display:inline-block; color:#fff; font-size:.72rem; font-weight:700; padding:3px 10px; border-radius:20px; text-transform:uppercase; margin-right:6px; }
+  .type { display:inline-block; font-size:.72rem; color:var(--muted); border:1px solid var(--line); padding:3px 10px; border-radius:20px; text-transform:uppercase; margin-right:6px; }
+  .badge { display:inline-block; font-size:.7rem; padding:3px 10px; border-radius:20px; font-weight:700; }
+  .badge.ok { background:#d1fae5; color:#065f46; }
+  .badge.generado { background:#e0e7ff; color:#3730a3; }
+  .badge.real { background:#d1fae5; color:#065f46; }
+  .badge.mix { background:#fef3c7; color:#92400e; }
+  .id { display:block; color:var(--muted); font-size:.78rem; margin-top:4px; }
+  
+  /* IMAGENES: forzar que no se salgan de la card */
+  .imgs { padding:10px; background:#faf6ec; display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:6px; width:100%; }
+  .imgs.single { grid-template-columns:1fr; }
+  .imgs img { width:100%; height:auto; max-width:100%; border-radius:6px; display:block; object-fit:cover; aspect-ratio:4/3; }
+  .imgs.single img { aspect-ratio:1/1; }
+  
+  .video-real-banner { background:linear-gradient(90deg, #d4af37, #c9a045); color:#1a1611; text-align:center; padding:6px 12px; font-size:.72em; font-weight:700; letter-spacing:.8px; text-transform:uppercase; }
+  .video-container { padding:0; background:#000; overflow:hidden; width:100%; }
+  .video-container video { width:100%; max-height:280px; object-fit:contain; display:block; }
+  
+  .copy { padding:14px 16px 0; font-size:.92rem; color:#222; line-height:1.5; word-wrap:break-word; }
+  .copy strong { color:#0f3d56; }
+  .vis { padding:10px 16px; font-size:.9rem; color:#374151; word-wrap:break-word; }
+  .vis strong { color:#0f3d56; }
+  .propuesta { padding:12px 18px; background:#fff3d6; color:#7a5b00; font-size:.85em; border-top:1px solid #f0d98a; }
+  
+  .footer-note { text-align:center; color:var(--muted); font-size:.85rem; padding:24px 0 40px; }
+
+  /* === SECCIONES DE COMENTARIOS === */
+  .comments-section { border-top:1px dashed var(--line); background:#fdfbf6; padding:12px 16px; }
+  .comments-toggle { display:flex; align-items:center; justify-content:space-between; cursor:pointer; padding:6px 0; font-size:.85rem; color:#0f3d56; font-weight:600; }
+  .comments-toggle:hover { color:var(--gold-dark); }
+  .comments-count { display:flex; align-items:center; gap:6px; }
+  .comments-count.has-comments { color:#b45309; }
+  .comments-count .dot { width:8px; height:8px; background:#22c55e; border-radius:50%; display:none; }
+  .comments-count.has-comments .dot { display:inline-block; }
+  .comments-arrow { font-size:.7rem; transition:transform .2s; }
+  .comments-arrow.open { transform:rotate(90deg); }
+  .comments-content { display:none; padding-top:8px; }
+  .comments-content.open { display:block; }
+
+  .comments-list { display:flex; flex-direction:column; gap:8px; margin-bottom:10px; max-height:240px; overflow-y:auto; }
+  .comment-item { background:#fff; border:1px solid #e8e0d0; border-radius:8px; padding:8px 10px; font-size:.82rem; }
+  .comment-item .comment-meta { display:flex; justify-content:space-between; color:#888; font-size:.72rem; margin-bottom:4px; }
+  .comment-item .comment-author { font-weight:700; color:#0f3d56; }
+  .comment-item .comment-text { color:#333; line-height:1.4; word-wrap:break-word; }
+  .comment-item .comment-delete { color:#c0392b; cursor:pointer; font-size:.7rem; margin-left:8px; opacity:.7; }
+  .comment-item .comment-delete:hover { opacity:1; text-decoration:underline; }
+
+  .comment-form { display:flex; flex-direction:column; gap:6px; }
+  .comment-form input, .comment-form textarea { border:1px solid #ddd; border-radius:6px; padding:6px 8px; font-family:inherit; font-size:.82rem; resize:vertical; }
+  .comment-form input:focus, .comment-form textarea:focus { outline:none; border-color:var(--gold); }
+  .comment-form button { align-self:flex-start; background:#0f3d56; color:#fff; border:none; border-radius:6px; padding:6px 14px; font-size:.82rem; cursor:pointer; }
+  .comment-form button:hover { background:#1a5a7a; }
+
+  /* Comentarios generales */
+  .general-comments-section { background:#fff; border-radius:14px; box-shadow:0 2px 10px rgba(0,0,0,.06); padding:24px; margin:24px 0 40px; }
+  .general-comments-section h2 { font-size:1.3rem; color:#0f3d56; margin-bottom:16px; border-left:4px solid var(--gold); padding-left:12px; }
+  .general-comments-section .comments-list { max-height:none; }
+  .general-comments-section .comment-form textarea { min-height:60px; }
+
+</style>
+</head>
+<body>
+<div class="container">
+<header class="stats">
+  <h1>Calendario de Redes Sociales — THERMOCORK</h1>
+  <p>Planificación trimestral · 3 meses · 90 publicaciones · Imágenes + Videos reales + Infografías</p>
+  <div class="metrics">
+    <div class="metric"><strong>90</strong><small>Posts totales</small></div>
+    <div class="metric"><strong>85</strong><small>Imágenes reales</small></div>
+    <div class="metric"><strong>13</strong><small>Videos reales</small></div>
+    <div class="metric"><strong>51</strong><small>Infografías generadas</small></div>
+  </div>
+</header>
+<section class="month-section">
+  <div class="month-title">Mes 1</div>
+  <div class="days">
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 1</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Reel</span>
+<span class="badge mix">MIX</span>
+<h3>Bienvenida a THERMOCORK — Corcho Proyectado</h3>
+<small class="id">thermocork-m1d1-ig · Origen: MIX</small>
+</header>
+    <div class="imgs">
+<img src="assets/thermocork-d1-ig/01_IMG_8649.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d1-ig/02_IMG_8650.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d1-ig/03_IMG_8651.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d1-ig/04_1003744244994_262944445_1706x960.webp" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d1-ig/05_IMG_7547.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d1-ig/06_IMG_7548.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Descubre THERMOCORK, la solución de corcho proyectado que revoluciona la arquitectura sostenible. Ahorro energético del 30%, absorción acústica hasta 38 dB y 100% natural. Bienvenidos a la nueva era del aislamiento.<br><br>#thermocork #arquitectura #aislamiento #sostenibilidad #corcho #edificacion #construccion</div>
+    <div class="vis"><strong>Visual:</strong> Secuencia de 6 fotografías reales de obras THERMOCORK con textura de corcho y transiciones en formato Reel.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d1-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Conoce la gama THERMOCORK: Residencial, Industria, SATE y más</h3>
+<small class="id">thermocork-m1d1-fb · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d1-fb/01_IMG_8652.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>THERMOCORK RESIDENCIAL · THERMOCORK INDUSTRIA · THERMOCORK SATE · THERMOCORK RENOVABLES · THERMOCORK RETAIL · THERMOCORK AMIANTO. Seis soluciones, un mismo material 100% natural, para cada necesidad constructiva.<br><br>#thermocork #productos #construccion #arquitectura #aislamiento #sostenibilidad</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de aplicación THERMOCORK mostrando la versatilidad de la gama.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d1-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Infografía Corporativa — THERMOCORK en cifras</h3>
+<small class="id">thermocork-m1d1-li · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d1-li/01_imagen_1.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>El corcho proyectado de THERMOCORK no es solo un revestimiento: es un sistema integral de aislamiento térmico, acústico y de protección. Desglosamos sus ventajas técnicas y su impacto en la edificación contemporánea.<br><br>#thermocork #eficienciaenergetica #arquitectura #edificacion #sostenibilidad #innovacion</div>
+    <div class="vis"><strong>Visual:</strong> Imagen real con datos clave de THERMOCORK sobre textura de corcho natural.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d1-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 2</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 3</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Del alcornoque a tu fachada — 100% natural</h3>
+<small class="id">thermocork-m1d3-ig · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d3-ig/01_imagen_3.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>THERMOCORK nace del alcornoque. Un proceso sostenible que respeta el bosque y aporta el mejor aislamiento natural a la arquitectura moderna.<br><br>#thermocork #alcornoque #naturaleza #sostenibilidad #arquitectura #corcho #greenbuilding</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real del origen natural del corcho y su aplicación arquitectónica.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d3-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 4</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Reel</span>
+<span class="badge ok">REAL</span>
+<h3>Acústica en hostelería: Restaurante Madrid</h3>
+<small class="id">thermocork-m1d4-ig · Origen: REAL</small>
+</header>
+    <div class="video-real-banner">VIDEO REAL · Restaurante Madrid</div>
+<div class="video-container">
+<video controls><source src="videos_reales/restaurante_madrid/WhatsApp Video 2026-06-03 at 20.07.30 (1).mp4" type="video/mp4"></video>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Así se transforma el confort acústico de un restaurante en Madrid con THERMOCORK. Absorción de hasta 38 dB para espacios donde la conversación es prioridad. Sin obras invasivas, con acabado premium.<br><br>#thermocork #acustica #hosteleria #restaurantes #madrid #interiorismo #aislamientoacustico</div>
+    <div class="vis"><strong>Visual:</strong> Vídeo real del interior del restaurante con aplicación de corcho proyectado en techos.</div>
+    <div class="propuesta"><strong>Propuesta:</strong> Subtítulos con datos de reducción de decibelios. Corte a los 15 segundos para Stories.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d4-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>THERMOCORK en hostelería: confort acústico premium</h3>
+<small class="id">thermocork-m1d4-li · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d4-li/01_imagen_5.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Los espacios de hostelería exigen equilibrio entre estética y funcionalidad. THERMOCORK absorbe hasta 38 dB con un acabado continuo que integra diseño y bienestar.<br><br>#thermocork #hosteleria #acustica #interiorismo #arquitectura #diseno</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de aplicación en techo de restaurante con acabado impecable.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d4-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Restaurante Madrid: antes y después del aislamiento acústico</h3>
+<small class="id">thermocork-m1d4-fb · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d4-fb/01_imagen_4.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>La acústica marca la diferencia en la experiencia del cliente. En este restaurante de Madrid, THERMOCORK redujo el ruido ambiental con un acabado que respeta la identidad del local.<br><br>#thermocork #madrid #restaurantes #acustica #interiorismo #obras</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real del resultado final en el restaurante.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d4-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 5</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 6</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Textura real, rendimiento real</h3>
+<small class="id">thermocork-m1d6-ig · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d6-ig/01_IMG_7549(1).JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>La textura de THERMOCORK no es decorativa: es funcional. Cada poro trabaja para aislarte del frío, del calor y del ruido. Naturaleza en estado puro.<br><br>#thermocork #textura #corcho #natural #arquitectura #sostenibilidad</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía macro real de la textura del corcho proyectado.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d6-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 7</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Reel</span>
+<span class="badge ok">REAL</span>
+<h3>Motorhome, yates y espacios móviles con THERMOCORK</h3>
+<small class="id">thermocork-m1d7-ig · Origen: REAL</small>
+</header>
+    <div class="imgs">
+<img src="assets/thermocork-d7-ig/01_IMG_7549(2).JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d7-ig/02_IMG_7549.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d7-ig/03_IMG_7556.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>THERMOCORK no solo se proyecta en edificios. Su ligereza y flexibilidad lo convierten en aliado de motorhomes, yates y espacios móviles que exigen aislamiento sin peso.<br><br>#thermocork #motorhome #yates #movilidad #aislamiento #ligereza #arquitectura</div>
+    <div class="vis"><strong>Visual:</strong> Secuencia de 3 fotografías reales de aplicaciones en espacios móviles.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d7-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">REAL</span>
+<h3>Versatilidad THERMOCORK: más allá de la edificación</h3>
+<small class="id">thermocork-m1d7-fb · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d7-fb/01_IMG_7557.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Desde una nave industrial hasta un yate. THERMOCORK se adapta a cualquier superficie curva, inclinada o móvil sin perder rendimiento.<br><br>#thermocork #versatilidad #aplicaciones #obra #arquitectura #construccion</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de aplicación en superficie especial.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d7-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 8</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Carrusel</span>
+<span class="badge ok">REAL</span>
+<h3>Proceso de aplicación THERMOCORK paso a paso</h3>
+<small class="id">thermocork-m1d8-ig · Origen: REAL</small>
+</header>
+    <div class="imgs">
+<img src="assets/thermocork-d8-ig/01_IMG_8656.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d8-ig/02_IMG_8657.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d8-ig/03_IMG_8658.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d8-ig/04_IMG_8659.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Preparación, imprimación, proyección y acabado. 4 pasos, una sola capa continua, sin juntas ni fisuras. Así se aplica THERMOCORK en obra real.<br><br>#thermocork #proceso #aplicacion #obra #arquitectura #corcho #construccion</div>
+    <div class="vis"><strong>Visual:</strong> Carrusel de 4 fotografías reales del proceso completo de aplicación.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d8-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">REAL</span>
+<h3>Corcho Impermeable: demostración en obra</h3>
+<small class="id">thermocork-m1d8-fb · Origen: REAL</small>
+</header>
+    <div class="video-real-banner">VIDEO REAL · Corcho Impermeable</div>
+<div class="video-container">
+<video controls><source src="videos_reales/corcho_impermeable/WhatsApp Video 2026-06-03 at 20.27.16.mp4" type="video/mp4"></video>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>THERMOCORK es impermeable y transpirable al mismo tiempo. Vea cómo el agua no penetra mientras el material permite la respiración del edificio. Protección real, certificada en obra.<br><br>#thermocork #impermeable #transpirable #proteccion #construccion #arquitectura #obras</div>
+    <div class="vis"><strong>Visual:</strong> Vídeo real de demostración de impermeabilidad con agua sobre corcho proyectado.</div>
+    <div class="propuesta"><strong>Propuesta:</strong> Añadir texto superpuesto con la certificación de permeabilidad al inicio del vídeo.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d8-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Proceso constructivo con corcho proyectado</h3>
+<small class="id">thermocork-m1d8-li · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d8-li/01_IMG_8661.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>La ejecución de THERMOCORK no requiere andamiajes invasivos ni tiempos de obra prolongados. Una solución B2B eficiente para arquitectos y constructores.<br><br>#thermocork #proceso #obra #b2b #arquitectura #construccion #eficiencia</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real del equipo aplicando corcho en obra.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d8-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 9</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 10</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Sostenibilidad tangible: cada gramo cuenta</h3>
+<small class="id">thermocork-m1d10-ig · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d10-ig/01_imagen_11.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>THERMOCORK no emite CO2 en su aplicación, no genera residuos tóxicos y es 100% reciclable. Sostenibilidad que se ve, se toca y se certifica.<br><br>#thermocork #sostenibilidad #co2 #reciclable #arquitectura #greenbuilding #construccion</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de fachada con corcho proyectado y vegetación integrada.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d10-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 11</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Reel</span>
+<span class="badge ok">REAL</span>
+<h3>Boutique hotel con alma de corcho</h3>
+<small class="id">thermocork-m1d11-ig · Origen: REAL</small>
+</header>
+    <div class="imgs">
+<img src="assets/thermocork-d11-ig/01_IMG_7559.WEBP" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d11-ig/02_IMG_7560.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d11-ig/03_IMG_7561.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Diseño, confort y sostenibilidad en cada detalle. Así se integra THERMOCORK en boutiques y hoteles boutique donde la experiencia del huésped es prioridad.<br><br>#thermocork #boutiquehotel #diseno #interiorismo #acustica #arquitectura #hotel</div>
+    <div class="vis"><strong>Visual:</strong> Secuencia de 3 fotografías reales de interior de boutique con corcho proyectado.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d11-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Estética y acústica en hoteles boutique</h3>
+<small class="id">thermocork-m1d11-fb · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d11-fb/01_IMG_7573.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Los huéspedes valoran el silencio tanto como el diseño. THERMOCORK ofrece ambos: acabado texturizado premium y absorción acústica certificada.<br><br>#thermocork #hotel #boutique #acustica #diseno #interiorismo #arquitectura</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de habitación o área común con corcho proyectado.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d11-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>THERMOCORK en hospitality: ROI por confort</h3>
+<small class="id">thermocork-m1d11-li · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d11-li/01_IMG_7574.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>El sector hospitality invierte en confort porque sabe que se traduce en reseñas y repetición. THERMOCORK aísla acústicamente con un coste por m² altamente competitivo.<br><br>#thermocork #hospitality #roi #acustica #hotel #arquitectura #inversion</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de espacio hotelero con corcho proyectado en techos.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d11-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 12</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 13</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Detalle de acabado en fachada THERMOCORK</h3>
+<small class="id">thermocork-m1d13-ig · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d13-ig/01_IMG_7575.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>La perfección está en los detalles. Acabado uniforme, sin juntas, sin grietas. THERMOCORK como sistema constructivo de alta exigencia.<br><br>#thermocork #acabado #fachada #detalle #arquitectura #calidad #construccion</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de detalle de fachada con acabado impecable.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d13-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Dossier técnico: especificaciones THERMOCORK</h3>
+<small class="id">thermocork-m1d13-li · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d13-li/01_imagen_14.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Para arquitectos y aparejadores: disponemos de dossier técnico completo con fichas de producto, certificaciones y detalles constructivos. Solicítalo sin compromiso.<br><br>#thermocork #dossier #tecnico #arquitectura #construccion #especificaciones #b2b</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de mampara o cartela técnica en obra con THERMOCORK.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d13-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 14</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Reel</span>
+<span class="badge ok">REAL</span>
+<h3>Obra Ibiza: Techo Frío en acción — Parte 1</h3>
+<small class="id">thermocork-m1d14-ig · Origen: REAL</small>
+</header>
+    <div class="video-real-banner">VIDEO REAL · Obra Ibiza Techo Frío</div>
+<div class="video-container">
+<video controls><source src="videos_reales/obra_ibiza_techo_frio/WhatsApp Video 2026-06-03 at 20.04.28 (1).mp4" type="video/mp4"></video>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Iniciamos serie desde una obra real en Ibiza: aplicación de THERMOCORK TC MAX SRI 106 como solución de techo frío. Reflexión solar del 86% y reducción de temperatura de hasta 6 °C. Parte 1: preparación y primeras pasadas.<br><br>#thermocork #ibiza #techofrio #coolroof #sri106 #industria #obra #arquitectura</div>
+    <div class="vis"><strong>Visual:</strong> Vídeo real de aplicación de corcho proyectado en cubierta industrial en Ibiza.</div>
+    <div class="propuesta"><strong>Propuesta:</strong> Insertar gráfico de temperatura antes/después al minuto 0:20.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d14-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">REAL</span>
+<h3>Obra Ibiza: avance de cubierta — Parte 2</h3>
+<small class="id">thermocork-m1d14-fb · Origen: REAL</small>
+</header>
+    <div class="video-real-banner">VIDEO REAL · Avance Obra Ibiza</div>
+<div class="video-container">
+<video controls><source src="videos_reales/obra_ibiza_techo_frio/WhatsApp Video 2026-06-03 at 20.04.28.mp4" type="video/mp4"></video>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Continuamos en Ibiza. Segunda fase de aplicación de THERMOCORK en cubierta industrial. La velocidad de ejecución no sacrifica calidad: 500 m²/día con acabado uniforme y sin juntas.<br><br>#thermocork #ibiza #obra #cubiertas #coolroof #industria #arquitectura #eficiencia</div>
+    <div class="vis"><strong>Visual:</strong> Vídeo real del avance de la obra de techo frío.</div>
+    <div class="propuesta"><strong>Propuesta:</strong> Añadir timelapse acelerado de 3 segundos al inicio.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d14-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 15</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 16</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Textura y marca: THERMOCORK como identidad</h3>
+<small class="id">thermocork-m1d16-ig · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d16-ig/01_imagen_17.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>THERMOCORK no es un revestimiento anónimo. Es una firma constructiva que aporta identidad, calidez y prestigio a cualquier edificio.<br><br>#thermocork #textura #marca #identidad #fachada #arquitectura #diseno</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de fachada donde la textura de corcho es protagonista.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d16-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 17</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 18</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Reel</span>
+<span class="badge ok">REAL</span>
+<h3>Restaurante con carácter: diseño y acústica</h3>
+<small class="id">thermocork-m1d18-ig · Origen: REAL</small>
+</header>
+    <div class="imgs">
+<img src="assets/thermocork-d18-ig/01_IMG_7576.jpg" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d18-ig/02_IMG_7577.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Un restaurante que suena bien y se ve mejor. THERMOCORK integra acústica y estética en un solo gesto constructivo.<br><br>#thermocork #restaurante #acustica #diseno #interiorismo #arquitectura #corcho</div>
+    <div class="vis"><strong>Visual:</strong> Secuencia de 2 fotografías reales de restaurante con corcho proyectado.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d18-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">REAL</span>
+<h3>Restaurante Madrid: ambiente controlado</h3>
+<small class="id">thermocork-m1d18-fb · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d18-fb/01_IMG_7578.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>El éxito de un restaurante pasa por los sentidos. THERMOCORK controla el ruido ambiental para que el sabor y la conversación sean los protagonistas.<br><br>#thermocork #restaurante #madrid #acustica #interiorismo #arquitectura</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real del interior del restaurante con acabado THERMOCORK.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d18-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Proyecto restauración: acústica sin obras invasivas</h3>
+<small class="id">thermocork-m1d18-li · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d18-li/01_imagen_19.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Reforma de restaurante con THERMOCORK sin cierre del negocio. Solución proyectada en horario nocturno, secado rápido y apertura al día siguiente.<br><br>#thermocork #restaurante #reforma #acustica #obra #arquitectura #b2b</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real del antes/después de la intervención acústica.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d18-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 19</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 20</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Protección estructural en altura</h3>
+<small class="id">thermocork-m1d20-ig · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d20-ig/01_IMG_7579.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>THERMOCORK protege estructuras expuestas con una capa ligera que no añade carga al edificio. Ideal para rehabilitación de forjados y cubiertas.<br><br>#thermocork #proteccion #estructura #rehabilitacion #cubiertas #arquitectura #construccion</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de estructura protegida con corcho proyectado.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d20-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 21</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Reel</span>
+<span class="badge ok">GENERADO</span>
+<h3>Villa de verano con THERMOCORK: diseño bioclimático</h3>
+<small class="id">thermocork-m1d21-ig · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_impermeabilizacion.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>Villa de verano que respira con THERMOCORK. Fachada bioclimática que reduce la temperatura interior sin consumir energía. Diseño y sostenibilidad en equilibrio perfecto.<br><br>#thermocork #villa #verano #bioclimatico #diseno #arquitectura #sostenibilidad</div>
+    <div class="vis"><strong>Visual:</strong> Reel con renders de villa y datos de eficiencia energética.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d21-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 22</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Carrusel</span>
+<span class="badge ok">REAL</span>
+<h3>Bodega protegida con THERMOCORK: control higrométrico</h3>
+<small class="id">thermocork-m1d22-ig · Origen: REAL</small>
+</header>
+    <div class="imgs">
+<img src="assets/thermocork-d22-ig/01_IMG_7580.jpg" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d22-ig/02_IMG_7581.jpg" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d22-ig/03_IMG_7582.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>La bodega perfecta mantiene temperatura y humedad constantes. THERMOCORK regula el ambiente naturalmente, protegiendo el vino y la estructura con un mismo gesto.<br><br>#thermocork #bodega #vino #humedad #control #arquitectura #enologia</div>
+    <div class="vis"><strong>Visual:</strong> Carrusel de 3 fotografías reales de bodega con corcho proyectado.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d22-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Bodegas y caves: THERMOCORK como aliado de la enología</h3>
+<small class="id">thermocork-m1d22-fb · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d22-fb/01_IMG_7583.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>El corcho natural y el vino ya son familia. THERMOCORK lleva esa relación a la arquitectura: control térmico, higrométrico y acústico en bodegas y caves.<br><br>#thermocork #bodega #enologia #vino #arquitectura #corcho #tradicion</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de cave o sala de barricas con corcho proyectado.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d22-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 23</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Texturas THERMOCORK: cada proyecto, un acabado único</h3>
+<small class="id">thermocork-m1d23-ig · Origen: REAL</small>
+</header>
+    <div class="imgs">
+<img src="assets/thermocork-d23-ig/01_IMG_8666.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d23-ig/02_IMG_8667.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d23-ig/03_IMG_8668.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Fino, rústico o intermedio. THERMOCORK permite ajustar la textura de proyección para adaptarse al lenguaje arquitectónico de cada proyecto.<br><br>#thermocork #texturas #acabados #personalizacion #arquitectura #diseno #obra</div>
+    <div class="vis"><strong>Visual:</strong> 3 fotografías reales mostrando diferentes texturas de acabado THERMOCORK.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d23-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 24</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Story</span>
+<span class="badge ok">REAL</span>
+<h3>Story: Dossier de obra al instante</h3>
+<small class="id">thermocork-m1d24-ig · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d24-ig/01_IMG_8669.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Solicita tu dossier técnico desde Stories. Desliza arriba y recibe fichas de producto, certificaciones y ejemplos de obra en tu email.<br><br>#thermocork #dossier #tecnico #stories #arquitectura #obra #contacto</div>
+    <div class="vis"><strong>Visual:</strong> Story con foto real de dossier/obra y sticker "Link".</div>
+    <div class="comments-section" data-post-id="thermocork-m1d24-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 25</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Reel</span>
+<span class="badge ok">REAL</span>
+<h3>Portfolio THERMOCORK: 6 obras, 6 soluciones</h3>
+<small class="id">thermocork-m1d25-ig · Origen: REAL</small>
+</header>
+    <div class="imgs">
+<img src="assets/thermocork-d25-ig/01_IMG_8670.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d25-ig/02_IMG_8671.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d25-ig/03_IMG_8672.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d25-ig/04_IMG_7584.jpg" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d25-ig/05_IMG_7585.jpg" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d25-ig/06_IMG_7586.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>De Madrid a Ibiza, de bodegas a naves industriales. 6 obras reales que demuestran la versatilidad de THERMOCORK. ¿Cuál se adapta a tu proyecto?<br><br>#thermocork #portfolio #obras #arquitectura #construccion #sostenibilidad</div>
+    <div class="vis"><strong>Visual:</strong> Reel compuesto por 6 fotografías reales de obras representativas.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d25-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">REAL</span>
+<h3>Recap de obras: 4 proyectos en un solo vistazo</h3>
+<small class="id">thermocork-m1d25-fb · Origen: REAL</small>
+</header>
+    <div class="imgs">
+<img src="assets/thermocork-d25-fb/01_IMG_8673.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d25-fb/02_IMG_8674.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d25-fb/03_IMG_7587.jpg" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d25-fb/04_IMG_7588.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Un vistazo rápido a 4 proyectos recientes. Diferentes escalas, diferentes climas, un mismo resultado: eficiencia y durabilidad con THERMOCORK.<br><br>#thermocork #recap #obras #arquitectura #construccion #eficiencia</div>
+    <div class="vis"><strong>Visual:</strong> Post con 4 fotografías reales de obras resumidas.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d25-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Cartera de proyectos 2026 — THERMOCORK</h3>
+<small class="id">thermocork-m1d25-li · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d25-li/01_IMG_8675.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Hoteles, naves industriales, centros comerciales y viviendas. Nuestra cartera crece cada mes porque THERMOCORK demuestra resultados reales.<br><br>#thermocork #proyectos #2026 #cartera #arquitectura #construccion #b2b</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de obra representativa de la cartera de proyectos.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d25-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 26</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Carrusel</span>
+<span class="badge ok">REAL</span>
+<h3>Agenda THERMOCORK: próximas obras y eventos</h3>
+<small class="id">thermocork-m1d26-ig · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d26-ig/01_IMG_8676.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Madrid, Barcelona, Valencia y Bilbao. Estas son las próximas obras donde THERMOCORK marcará la diferencia. Síguenos para ver el proceso paso a paso.<br><br>#thermocork #agenda #obras #eventos #arquitectura #construccion #seguimiento</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de obra en curso o cartel de agenda de eventos.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d26-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Formación continua: equipo THERMOCORK certificado</h3>
+<small class="id">thermocork-m1d26-fb · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d26-fb/01_IMG_8677.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Detrás de cada obra hay un equipo certificado. THERMOCORK invierte en formación continua para garantizar la mejor aplicación y el cumplimiento normativo.<br><br>#thermocork #formacion #equipo #certificacion #obra #arquitectura #calidad</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de equipo técnico en formación o aplicando en obra.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d26-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 27</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Ecológico por naturaleza, eficiente por diseño</h3>
+<small class="id">thermocork-m1d27-ig · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d27-ig/01_IMG_8678.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>THERMOCORK no contiene disolventes, VOC ni aditivos tóxicos. Su composición natural garantiza calidad del aire interior y respeto al medio ambiente.<br><br>#thermocork #ecologico #vocs #aireinterior #salud #arquitectura #sostenibilidad</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de fachada ecológica con corcho proyectado.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d27-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Equipo THERMOCORK: profesionales del corcho</h3>
+<small class="id">thermocork-m1d27-li · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d27-li/01_IMG_8679.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Conoce al equipo que hace posible cada proyecto THERMOCORK. Ingenieros, aplicadores y técnicos de soporte trabajando por una arquitectura más eficiente.<br><br>#thermocork #equipo #profesionales #corcho #arquitectura #construccion #talento</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real del equipo técnico THERMOCORK en obra o reunión.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d27-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 28</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Reel</span>
+<span class="badge ok">REAL</span>
+<h3>Cierre de Mes 1: 28 días de corcho real</h3>
+<small class="id">thermocork-m1d28-ig · Origen: REAL</small>
+</header>
+    <div class="imgs">
+<img src="assets/thermocork-d28-ig/01_IMG_8680.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d28-ig/02_IMG_8681.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d28-ig/03_IMG_8682.JPG" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d28-ig/04_IMG_7589.jpg" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d28-ig/05_IMG_7590.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>28 días conociendo THERMOCORK en imágenes reales. Texturas, obras, equipos y resultados. Esto es solo el principio.<br><br>#thermocork #mes1 #cierre #real #obra #arquitectura #corcho</div>
+    <div class="vis"><strong>Visual:</strong> Reel con 5 fotografías reales de cierre de mes.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d28-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">REAL</span>
+<h3>Madrid Nave Industrial: Techo Frío — Parte 1</h3>
+<small class="id">thermocork-m1d28-fb · Origen: REAL</small>
+</header>
+    <div class="video-real-banner">VIDEO REAL · Madrid Nave Industrial</div>
+<div class="video-container">
+<video controls><source src="videos_reales/madrid_nave_industrial_techo_frio/WhatsApp Video 2026-06-03 at 20.04.07.mp4" type="video/mp4"></video>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Arrancamos en Madrid: nave industrial que necesitaba reducir la temperatura interior sin parar la producción. THERMOCORK TC MAX SRI 106 aplicado en techo frío. Parte 1: acceso y preparación.<br><br>#thermocork #madrid #naveindustrial #techofrio #coolroof #industria #arquitectura #obra</div>
+    <div class="vis"><strong>Visual:</strong> Vídeo real del interior de la nave y techo antes de la aplicación.</div>
+    <div class="propuesta"><strong>Propuesta:</strong> Añadir overlay con temperatura ambiental en tiempo real.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d28-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Resultados medibles en nave industrial</h3>
+<small class="id">thermocork-m1d28-li · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d28-li/01_IMG_8684.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>La eficiencia energética en industria se mide en números. THERMOCORK reduce la demanda de climatización un 30% en naves logísticas y productivas.<br><br>#thermocork #industria #naveindustrial #eficienciaenergetica #arquitectura #b2b #resultados</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de nave industrial con corcho proyectado en cubierta.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d28-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 29</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 1 — Día 30</div>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Post</span>
+<span class="badge ok">GENERADO</span>
+<h3>Cierre de Mes 1: resumen de lanzamiento</h3>
+<small class="id">thermocork-m1d30-li · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_flexibilidad.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>30 días conociendo THERMOCORK: 6 familias de producto, obras documentadas en Madrid, Ibiza y Galicia, ventajas técnicas certificadas y aplicaciones reales. ¿Listo para el Mes 2?<br><br>#thermocork #resumen #lanzamiento #arquitectura #construccion #sostenibilidad #eficienciaenergetica</div>
+    <div class="vis"><strong>Visual:</strong> Infografía resumen con estadísticas del mes y mapa de obras.</div>
+    <div class="comments-section" data-post-id="thermocork-m1d30-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+  </div>
+</section>
+<section class="month-section">
+  <div class="month-title">Mes 2</div>
+  <div class="days">
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 1</div>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Artículo</span>
+<span class="badge ok">GENERADO</span>
+<h3>Industria 4.0 y eficiencia energética: el papel del corcho proyectado</h3>
+<small class="id">thermocork-m2d1-li · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_colores.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>La industria moderna necesita edificios inteligentes. THERMOCORK INDUSTRIA reduce la demanda energética un 30%, amortizándose en pocos años y mejorando las certificaciones LEED y BREEAM.<br><br>#thermocork #industria40 #eficienciaenergetica #leed #breeam #sostenibilidad #arquitectura #ingenieria</div>
+    <div class="vis"><strong>Visual:</strong> Infografía de fábrica con indicadores de ahorro y certificaciones.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d1-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 2</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Reel</span>
+<span class="badge ok">REAL</span>
+<h3>Restaurante Madrid: acústica premium — Parte 2</h3>
+<small class="id">thermocork-m2d2-ig · Origen: REAL</small>
+</header>
+    <div class="video-real-banner">VIDEO REAL · Restaurante Madrid Parte 2</div>
+<div class="video-container">
+<video controls><source src="videos_reales/restaurante_madrid/WhatsApp Video 2026-06-03 at 20.07.30 (2).mp4" type="video/mp4"></video>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Seguimos en el restaurante de Madrid. Segunda toma real del confort acústico logrado con THERMOCORK. El antes y el después en un solo espacio.<br><br>#thermocork #acustica #hosteleria #restaurantes #madrid #interiorismo</div>
+    <div class="vis"><strong>Visual:</strong> Vídeo real del interior del restaurante mostrando detalles de acabado.</div>
+    <div class="propuesta"><strong>Propuesta:</strong> Añadir comparativa de niveles de ruido antes/después con medidor.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d2-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 3</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Transformación real con THERMOCORK</h3>
+<small class="id">thermocork-m2d3-fb · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d4-ig/01_IMG_8654.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>La transformación empieza con un material que respeta la estructura y aporta eficiencia. THERMOCORK se adapta a cualquier superficie con acabado premium.<br><br>#thermocork #transformacion #obra #arquitectura #rehabilitacion #sostenibilidad</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real del estado posterior a la aplicación de corcho proyectado.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d3-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 4</div>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Del alcornoque a tu fachada — 100% natural</h3>
+<small class="id">thermocork-m2d4-li · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d4-ig/02_IMG_8655.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>THERMOCORK nace del alcornoque. Un proceso sostenible que respeta el bosque y aporta el mejor aislamiento natural a la arquitectura moderna.<br><br>#thermocork #alcornoque #naturaleza #sostenibilidad #arquitectura #corcho #greenbuilding</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real del origen natural del corcho y su aplicación arquitectónica.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d4-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 5</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">REAL</span>
+<h3>Aplicación en fachada residencial</h3>
+<small class="id">thermocork-m2d5-fb · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d5-ig/01_imagen_6.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Fachada protegida con THERMOCORK: eficiencia energética, impermeabilidad y estética natural en un solo material aplicado.<br><br>#thermocork #fachada #residencial #aplicacion #arquitectura #obra #eficiencia</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de aplicación en fachada residencial.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d5-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 6</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Carrusel</span>
+<span class="badge ok">REAL</span>
+<h3>Comparativa real: antes y después de THERMOCORK</h3>
+<small class="id">thermocork-m2d6-ig · Origen: REAL</small>
+</header>
+    <div class="imgs">
+<img src="assets/thermocork-d5-fb/01_imagen_7.jpg" alt="Imagen THERMOCORK"/>
+<img src="assets/thermocork-d6-li/01_imagen_8.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Mismo edificio, diferente rendimiento. Fotografías reales del antes y después de aplicar THERMOCORK en fachada y cubierta.<br><br>#thermocork #antesdespues #comparativa #fachada #cubierta #arquitectura #rehabilitacion</div>
+    <div class="vis"><strong>Visual:</strong> Carrusel de 2 fotografías reales comparando estado inicial y final.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d6-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 7</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Proceso de aplicación: fotografía del día</h3>
+<small class="id">thermocork-m2d7-fb · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d8-fb/01_IMG_8660.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Cada aplicación THERMOCORK sigue un protocolo estricto de preparación, proyección y acabado. Calidad documentada en cada fase.<br><br>#thermocork #proceso #aplicacion #protocolo #calidad #arquitectura #obra</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real del equipo aplicando corcho en obra.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d7-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 8</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Detalle de acabado uniforme</h3>
+<small class="id">thermocork-m2d8-ig · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d9-ig/01_imagen_9.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>La uniformidad del acabado THERMOCORK no es casualidad. Es el resultado de una aplicación controlada y un material que no fisura ni desprende.<br><br>#thermocork #acabado #uniforme #calidad #arquitectura #detalle #construccion</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de detalle de acabado uniforme sin juntas.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d8-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 9</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Carrusel</span>
+<span class="badge ok">REAL</span>
+<h3>Proceso constructivo en imagen</h3>
+<small class="id">thermocork-m2d9-ig · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d9-fb/01_imagen_10.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Cada aplicación THERMOCORK sigue un protocolo estricto de preparación, proyección y acabado. Calidad documentada en cada fase.<br><br>#thermocork #proceso #constructivo #protocolo #calidad #arquitectura #obra</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real del proceso de aplicación en obra.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d9-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 10</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 11</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Aplicación en espacio comercial</h3>
+<small class="id">thermocork-m2d11-fb · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d12-ig/01_imagen_12.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Espacios comerciales que necesitan confort acústico y estética premium. THERMOCORK aísla y embellece sin cerrar el local.<br><br>#thermocork #comercial #retail #acustica #interiorismo #arquitectura #obra</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de aplicación en techo de espacio comercial.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d11-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 12</div>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>THERMOCORK Retail: espacios que venden confort</h3>
+<small class="id">thermocork-m2d12-li · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d12-fb/01_imagen_13.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Tiendas, showrooms y centros comerciales necesitan ambientes controlados. THERMOCORK RETAIL aísla térmica y acústicamente sin cerrar el local ni interrumpir la actividad comercial.<br><br>#thermocork #retail #comercios #showroom #interiorismo #acustica #arquitectura</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de interior de tienda con techo de corcho proyectado y acabado premium.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d12-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 13</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Reel</span>
+<span class="badge ok">REAL</span>
+<h3>Restaurante Madrid: ambiente nocturno — Parte 3</h3>
+<small class="id">thermocork-m2d13-ig · Origen: REAL</small>
+</header>
+    <div class="video-real-banner">VIDEO REAL · Restaurante Madrid Parte 3</div>
+<div class="video-container">
+<video controls><source src="videos_reales/restaurante_madrid/WhatsApp Video 2026-06-03 at 20.07.30.mp4" type="video/mp4"></video>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>El corcho proyectado cambia la acústica del local, pero también su atmósfera. Vídeo real nocturno del restaurante de Madrid con THERMOCORK.<br><br>#thermocork #restaurante #madrid #ambiente #acustica #interiorismo #nocturno</div>
+    <div class="vis"><strong>Visual:</strong> Vídeo real nocturno del restaurante con iluminación y acabado THERMOCORK.</div>
+    <div class="propuesta"><strong>Propuesta:</strong> Añadir música ambiental suave y textos de datos de absorción.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d13-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 14</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">REAL</span>
+<h3>Obra residencial: protección y estética</h3>
+<small class="id">thermocork-m2d14-fb · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d15-ig/01_imagen_15.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Fachada y cubierta protegidas con THERMOCORK. Un proyecto residencial donde la eficiencia energética no renuncia al diseño. Acabado uniforme, sin juntas.<br><br>#thermocork #residencial #fachada #cubierta #arquitectura #diseno #eficiencia</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de fachada y cubierta residencial.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d14-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 15</div>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Proyecto en climas extremos: Galicia</h3>
+<small class="id">thermocork-m2d15-li · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d15-fb/01_imagen_16.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Galicia, tierra de lluvia y pizarra. Protegemos esta cubierta tradicional con THERMOCORK, respetando la estética local y aportando impermeabilidad total.<br><br>#thermocork #galicia #pizarra #impermeabilizacion #cubiertas #arquitectura #tradicion #sostenibilidad</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de cubierta de pizarra protegida con corcho proyectado.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d15-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 16</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 17</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">REAL</span>
+<h3>Impermeabilización Galicia: Pizarra — Parte 1</h3>
+<small class="id">thermocork-m2d17-fb · Origen: REAL</small>
+</header>
+    <div class="video-real-banner">VIDEO REAL · Galicia Pizarra Parte 1</div>
+<div class="video-container">
+<video controls><source src="videos_reales/impermeabilizacion_galicia_pizarra/WhatsApp Video 2026-06-03 at 20.27.50.mp4" type="video/mp4"></video>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Galicia, tierra de lluvia y pizarra. Protegemos esta cubierta tradicional con THERMOCORK, respetando la estética local y aportando impermeabilidad total. Parte 1: estado inicial y diagnóstico.<br><br>#thermocork #galicia #pizarra #impermeabilizacion #cubiertas #arquitectura #tradicion #sostenibilidad</div>
+    <div class="vis"><strong>Visual:</strong> Vídeo real de cubierta de pizarra antes de la intervención.</div>
+    <div class="propuesta"><strong>Propuesta:</strong> Añadir flechas indicando filtraciones en la primera mitad del vídeo.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d17-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 18</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Carrusel</span>
+<span class="badge ok">REAL</span>
+<h3>Textura natural en fachada</h3>
+<small class="id">thermocork-m2d18-ig · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d17-ig/01_imagen_18.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>La textura de THERMOCORK no es decorativa: es funcional. Cada poro trabaja para aislarte del frío, del calor y del ruido. Naturaleza en estado puro.<br><br>#thermocork #textura #corcho #natural #arquitectura #sostenibilidad</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía macro real de la textura del corcho proyectado.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d18-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 19</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Decoración con corcho: tendencias 2026</h3>
+<small class="id">thermocork-m2d19-fb · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d19-ig/01_imagen_20.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>El corcho proyectado es tendencia en decoración 2026. Descubre cómo THERMOCORK se integra en los estilos más demandados por arquitectos de interiores.<br><br>#thermocork #decoracion #tendencias2026 #interiorismo #arquitectura #diseno</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de interior con corcho proyectado como elemento decorativo.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d19-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 20</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Protección estructural en altura</h3>
+<small class="id">thermocork-m2d20-ig · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d19-fb/01_imagen_21.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>THERMOCORK protege estructuras expuestas con una capa ligera que no añade carga al edificio. Ideal para rehabilitación de forjados y cubiertas.<br><br>#thermocork #proteccion #estructura #rehabilitacion #cubiertas #arquitectura #construccion</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de estructura protegida con corcho proyectado.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d20-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 21</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Story</span>
+<span class="badge ok">REAL</span>
+<h3>Story: Dossier de obra al instante</h3>
+<small class="id">thermocork-m2d21-ig · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d21-fb/01_imagen_24.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Solicita tu dossier técnico desde Stories. Desliza arriba y recibe fichas de producto, certificaciones y ejemplos de obra en tu email.<br><br>#thermocork #dossier #tecnico #stories #arquitectura #obra #contacto</div>
+    <div class="vis"><strong>Visual:</strong> Story con foto real de dossier/obra y sticker "Link".</div>
+    <div class="comments-section" data-post-id="thermocork-m2d21-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 22</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Reel</span>
+<span class="badge ok">REAL</span>
+<h3>Madrid Nave Industrial: Techo Frío — Parte 1</h3>
+<small class="id">thermocork-m2d22-ig · Origen: REAL</small>
+</header>
+    <div class="video-real-banner">VIDEO REAL · Madrid Nave Industrial 1</div>
+<div class="video-container">
+<video controls><source src="videos_reales/madrid_nave_industrial_techo_frio/WhatsApp Video 2026-06-03 at 20.04.07.mp4" type="video/mp4"></video>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Arrancamos en Madrid: nave industrial que necesitaba reducir la temperatura interior sin parar la producción. THERMOCORK TC MAX SRI 106 aplicado en techo frío. Parte 1: acceso y preparación.<br><br>#thermocork #madrid #naveindustrial #techofrio #coolroof #industria #arquitectura #obra</div>
+    <div class="vis"><strong>Visual:</strong> Vídeo real del interior de la nave y techo antes de la aplicación.</div>
+    <div class="propuesta"><strong>Propuesta:</strong> Añadir overlay con temperatura ambiental en tiempo real.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d22-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 23</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">REAL</span>
+<h3>Madrid Industrial: aplicación en techo — Parte 2</h3>
+<small class="id">thermocork-m2d23-fb · Origen: REAL</small>
+</header>
+    <div class="video-real-banner">VIDEO REAL · Madrid Industrial 2</div>
+<div class="video-container">
+<video controls><source src="videos_reales/madrid_nave_industrial_techo_frio/WhatsApp Video 2026-06-03 at 20.04.08 (1).mp4" type="video/mp4"></video>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Avance de aplicación en nave industrial de Madrid. Equipo de proyección trabajando en altura con seguridad y precisión. El cambio térmico ya se nota.<br><br>#thermocork #madrid #industria #naveindustrial #techofrio #coolroof #obra #arquitectura</div>
+    <div class="vis"><strong>Visual:</strong> Vídeo real del equipo aplicando corcho en el techo de la nave.</div>
+    <div class="propuesta"><strong>Propuesta:</strong> Añadir comparación de temperatura interior antes/después al final del vídeo.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d23-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 24</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 25</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Carrusel</span>
+<span class="badge ok">GENERADO</span>
+<h3>Aplicaciones THERMOCORK: bodegas, spa y yates</h3>
+<small class="id">thermocork-m2d25-ig · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_faq.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>THERMOCORK se adapta a cualquier entorno: humedad, salinidad, tráfico intenso o espacios premium. Descubre sus aplicaciones más demandadas.<br><br>#thermocork #aplicaciones #bodegas #spa #yates #naves #arquitectura</div>
+    <div class="vis"><strong>Visual:</strong> Carrusel de 4 slides ilustrando aplicaciones sectoriales.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d25-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 26</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Post</span>
+<span class="badge ok">GENERADO</span>
+<h3>Autolimpiable: menos mantenimiento, más estética</h3>
+<small class="id">thermocork-m2d26-fb · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_antes_despues.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>La naturaleza del corcho hace que THERMOCORK sea autolimpiable. La lluvia y el viento eliminan la suciedad acumulada, manteniendo la fachada impecable año tras año.<br><br>#thermocork #autolimpiable #mantenimiento #fachadas #durabilidad #arquitectura #sostenibilidad</div>
+    <div class="vis"><strong>Visual:</strong> Secuencia de fachada antes/después de la lluvia mostrando limpieza natural.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d26-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 27</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Post</span>
+<span class="badge ok">GENERADO</span>
+<h3>Inhibidor de corrosión: protección metálica integrada</h3>
+<small class="id">thermocork-m2d27-ig · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_testimonio.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>THERMOCORK incorpora propiedades inhibitoras de corrosión, prolongando la vida útil de estructuras metálicas, vigas y forjados expuestos. Protección doble: térmica y química.<br><br>#thermocork #anticorrosion #estructurasmetalicas #industria #proteccion #arquitectura #ingenieria</div>
+    <div class="vis"><strong>Visual:</strong> Detalle de viga metálica recubierta con corcho y comparativa de oxidación.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d27-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 28</div>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Post</span>
+<span class="badge ok">GENERADO</span>
+<h3>Datos del Cool Roof: reflexión 86% y emisividad 0.81</h3>
+<small class="id">thermocork-m2d28-li · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_agenda.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>Datos que importan: 86% de reflexión solar y emisividad de 0.81. Tu cubierta devuelve el calor al exterior antes de que entre en el edificio.<br><br>#thermocork #datos #reflectancia #emisividad #techofrio #coolroof #arquitectura</div>
+    <div class="vis"><strong>Visual:</strong> Story vertical con números grandes y fondo de textura corcho.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d28-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 29</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">GENERADO</span>
+<h3>500 m² al día: productividad real</h3>
+<small class="id">thermocork-m2d29-fb · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_internacional.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>Rendimiento de 500 m²/día de aplicación con THERMOCORK SATE. Menos tiempo de obra, menos costes indirectos y entrega antes de plazo. La eficiencia también se mide en metros cuadrados.<br><br>#thermocork #productividad #obra #sate #eficiencia #construccion #arquitectura</div>
+    <div class="vis"><strong>Visual:</strong> Secuencia de aplicación con contador de m² aplicados.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d29-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 2 — Día 30</div>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Artículo</span>
+<span class="badge ok">GENERADO</span>
+<h3>Resumen Mes 2: profundización sectorial</h3>
+<small class="id">thermocork-m2d30-li · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_verano.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>Mes 2 nos ha llevado por restaurantes, bodegas, naves industriales y viviendas. Profundización real en cada sector con resultados medibles. Preparados para el Mes 3 de conversión.<br><br>#thermocork #mes2 #resumen #sectorial #arquitectura #construccion #b2b</div>
+    <div class="vis"><strong>Visual:</strong> Infografía resumen con métricas y comparativas mensuales.</div>
+    <div class="comments-section" data-post-id="thermocork-m2d30-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+  </div>
+</section>
+<section class="month-section">
+  <div class="month-title">Mes 3</div>
+  <div class="days">
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 1</div>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Artículo</span>
+<span class="badge ok">GENERADO</span>
+<h3>Comparativas técnicas: THERMOCORK vs soluciones tradicionales</h3>
+<small class="id">thermocork-m3d1-li · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_certificaciones.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>Análisis técnico comparativo para arquitectos y prescriptores. THERMOCORK gana en sostenibilidad, durabilidad y eficiencia energética frente a aislamientos tradicionales.<br><br>#thermocork #comparativa #tecnica #arquitectura #ingenieria #construccion #eficiencia</div>
+    <div class="vis"><strong>Visual:</strong> Infografía comparativa en formato LinkedIn article.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d1-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 2</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Reel</span>
+<span class="badge ok">GENERADO</span>
+<h3>Restaurante Madrid: ambiente completo — Resumen IA</h3>
+<small class="id">thermocork-m3d2-ig · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_subvenciones.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>Cierre de serie en el restaurante de Madrid. El ambiente con THERMOCORK: acústica, estética y confort en un solo espacio. Reserva tu visita.<br><br>#thermocork #restaurante #madrid #acustica #interiorismo #cierre #real</div>
+    <div class="vis"><strong>Visual:</strong> Reel con montaje de fotografías reales y datos de acústica.</div>
+    <div class="propuesta"><strong>Propuesta:</strong> Incluir testimonio del propietario en texto al final del Reel.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d2-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 3</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Post</span>
+<span class="badge ok">GENERADO</span>
+<h3>Ahorro energético: cálculo para tu edificio</h3>
+<small class="id">thermocork-m3d3-fb · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_lujo_sostenible.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>Calcula cuánto puedes ahorrar con THERMOCORK en tu edificio. Introduce los metros cuadrados y el tipo de uso: vivienda, oficina, nave o local comercial.<br><br>#thermocork #ahorro #calculadora #eficienciaenergetica #arquitectura #construccion</div>
+    <div class="vis"><strong>Visual:</strong> Carrusel de 3 slides con calculadora visual de ahorro.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d3-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 4</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Carrusel</span>
+<span class="badge ok">GENERADO</span>
+<h3>Eficiencia energética: datos que convencen</h3>
+<small class="id">thermocork-m3d4-ig · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_ventajas_clave.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>Datos que convencen a cualquier prescriptor. THERMOCORK no promete, demuestra con cifras certificadas.<br><br>#thermocork #datos #eficiencia #acustica #fuego #arquitectura #construccion</div>
+    <div class="vis"><strong>Visual:</strong> Carrusel de 4 slides con datos técnicos destacados.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d4-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 5</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">GENERADO</span>
+<h3>CTA: Agenda tu visita técnica gratuita</h3>
+<small class="id">thermocork-m3d5-fb · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_productos.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>¿Tienes un proyecto en mente? Agenda una visita técnica gratuita. Nuestros especialistas evaluarán tu edificio y propondrán la solución THERMOCORK óptima.<br><br>#thermocork #cta #agenda #visitagratuita #arquitectura #construccion #contacto</div>
+    <div class="vis"><strong>Visual:</strong> Video motion graphics con llamada a la acción y contacto.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d5-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 6</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Post</span>
+<span class="badge ok">GENERADO</span>
+<h3>Prueba social: testimonios de arquitectos</h3>
+<small class="id">thermocork-m3d6-ig · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_tc_max.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>"THERMOCORK nos permitió cumplir con la normativa CTE sin sacrificar estética". Arquitectos que ya han prescrito THERMOCORK comparten su experiencia.<br><br>#thermocork #testimonio #arquitecto #prescriptor #experiencia #construccion</div>
+    <div class="vis"><strong>Visual:</strong> Imagen con testimonio de arquitecto y cita destacada.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d6-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 7</div>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Post</span>
+<span class="badge ok">GENERADO</span>
+<h3>Dossier técnico descargable: especificaciones 2026</h3>
+<small class="id">thermocork-m3d7-li · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_aplicaciones.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>Descarga el dossier técnico actualizado 2026 con fichas de producto, certificaciones y detalles constructivos. Información rigurosa para arquitectos e ingenieros.<br><br>#thermocork #dossier #tecnico #descarga #arquitectura #ingenieria #b2b</div>
+    <div class="vis"><strong>Visual:</strong> Mockup digital de dossier técnico descargable.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d7-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 8</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Story</span>
+<span class="badge ok">GENERADO</span>
+<h3>Encuesta: ¿Cuándo planeas rehabilitar?</h3>
+<small class="id">thermocork-m3d8-ig · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_sostenibilidad.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>Cuéntanos en Stories cuándo planeas rehabilitar. Te ayudamos a planificar el mejor momento para aplicar THERMOCORK.<br><br>#thermocork #encuesta #rehabilitacion #planificacion #arquitectura #stories</div>
+    <div class="vis"><strong>Visual:</strong> Story vertical con encuesta sobre timing de rehabilitación.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d8-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 9</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">REAL</span>
+<h3>Impermeabilización Galicia: proceso — Parte 2</h3>
+<small class="id">thermocork-m3d9-fb · Origen: REAL</small>
+</header>
+    <div class="video-real-banner">VIDEO REAL · Galicia Pizarra Parte 2</div>
+<div class="video-container">
+<video controls><source src="videos_reales/impermeabilizacion_galicia_pizarra/WhatsApp Video 2026-06-03 at 20.27.51.mp4" type="video/mp4"></video>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Seguimos en Galicia. Aplicación de THERMOCORK sobre pizarra con técnica de proyección húmeda. El resultado es una capa continua que sella, aísla y respeta la arquitectura tradicional.<br><br>#thermocork #galicia #pizarra #impermeabilizacion #aplicacion #obra #arquitectura #sostenibilidad</div>
+    <div class="vis"><strong>Visual:</strong> Vídeo real del proceso de proyección en cubierta inclinada.</div>
+    <div class="propuesta"><strong>Propuesta:</strong> Música tradicional gallega sutil de fondo y textos de datos técnicos.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d9-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 10</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 11</div>
+  <article class="card">
+    <header style="border-left:6px solid #0A66C2">
+<span class="plat" style="background:#0A66C2">LinkedIn</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Proyecto residencial: valoración técnica</h3>
+<small class="id">thermocork-m3d11-li · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d20-li/01_imagen_22.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Análisis técnico de proyecto residencial con THERMOCORK. Reducción de puentes térmicos, mejora de estanqueidad y aumento de confort interior documentado.<br><br>#thermocork #residencial #analisis #tecnico #arquitectura #b2b #documentacion</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de vivienda con corcho proyectado y planos técnicos.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d11-li">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 12</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 13</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Carrusel</span>
+<span class="badge ok">GENERADO</span>
+<h3>Caso de éxito: rehabilitación integral en 30 días</h3>
+<small class="id">thermocork-m3d13-ig · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_sate.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>Rehabilitación integral de fachada y cubierta en 30 días. THERMOCORK demuestra que la eficiencia energética no requiere obras interminables.<br><br>#thermocork #casoexito #rehabilitacion #30dias #arquitectura #construccion #eficiencia</div>
+    <div class="vis"><strong>Visual:</strong> Carrusel de 4 slides con caso de éxito documentado.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d13-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 14</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">GENERADO</span>
+<h3>Madrid Nave Industrial: recorrido final estilizado</h3>
+<small class="id">thermocork-m3d14-fb · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_residencial.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>Recorrido completo de la nave industrial de Madrid tras la aplicación de THERMOCORK. Espacios más frescos, menor consumo energético y mayor confort para el equipo.<br><br>#thermocork #madrid #naveindustrial #recorrido #final #coolroof #arquitectura #resultado</div>
+    <div class="vis"><strong>Visual:</strong> Video con animación de recorrido y datos de eficiencia energética.</div>
+    <div class="propuesta"><strong>Propuesta:</strong> Añadir gráfico de temperatura interior al inicio y final del vídeo.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d14-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 15</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Post</span>
+<span class="badge ok">GENERADO</span>
+<h3>Cierre de trimestre: THERMOCORK en números</h3>
+<small class="id">thermocork-m3d15-ig · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_amianto.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>Cerramos el trimestre con resultados. 90 publicaciones, 13 videos reales, cobertura en Madrid, Ibiza y Galicia. Gracias por acompañarnos.<br><br>#thermocork #trimestre #cierre #numeros #arquitectura #construccion #gracias</div>
+    <div class="vis"><strong>Visual:</strong> Infografía con métricas del trimestre.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d15-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 16</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Story</span>
+<span class="badge ok">GENERADO</span>
+<h3>Story: Únete al equipo THERMOCORK</h3>
+<small class="id">thermocork-m3d16-ig · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_retail.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>¿Eres aplicador de corcho proyectado? Únete a la red de instaladores certificados THERMOCORK. Formación, soporte técnico y cartera de obras garantizada.<br><br>#thermocork #empleo #aplicadores #certificacion #obra #arquitectura #equipo</div>
+    <div class="vis"><strong>Visual:</strong> Story vertical con llamada a aplicadores.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d16-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 17</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">GENERADO</span>
+<h3>Video: Cómo solicitar presupuesto THERMOCORK</h3>
+<small class="id">thermocork-m3d17-fb · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_acustica.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>Solicitar presupuesto THERMOCORK es rápido y sin compromiso. Visita técnica gratuita y propuesta personalizada en 48 horas.<br><br>#thermocork #presupuesto #gratuito #arquitectura #construccion #contacto #rapido</div>
+    <div class="vis"><strong>Visual:</strong> Video explicativo del proceso de presupuesto.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d17-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 18</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Textura y carácter: acabado en fachada</h3>
+<small class="id">thermocork-m3d18-ig · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d21-ig/01_imagen_23.jpg" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>La textura de THERMOCORK aporta personalidad a cada fachada. Un acabado natural que mejora con el tiempo, sin grietas ni desprendimientos.<br><br>#thermocork #textura #fachada #caracter #acabado #arquitectura #natural</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de fachada con textura de corcho proyectado.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d18-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 19</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 20</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Post</span>
+<span class="badge ok">GENERADO</span>
+<h3>Preguntas frecuentes: respuestas en 60 segundos</h3>
+<small class="id">thermocork-m3d20-fb · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_impermeabilizacion.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>¿Cuánto dura? ¿Se puede pintar? ¿Es caro? Resolvemos las 3 preguntas más frecuentes en menos de 60 segundos de lectura.<br><br>#thermocork #faq #preguntas #respuestas #arquitectura #construccion #informacion</div>
+    <div class="vis"><strong>Visual:</strong> Carrusel de 3 cards con FAQ.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d20-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 21</div>
+  <article class="card">
+    <header style="border-left:6px solid #E1306C">
+<span class="plat" style="background:#E1306C">Instagram</span>
+<span class="type">Carrusel</span>
+<span class="badge ok">GENERADO</span>
+<h3>5 motivos para elegir THERMOCORK este año</h3>
+<small class="id">thermocork-m3d21-ig · Origen: IA</small>
+</header>
+    <div class="imgs single"><img src="assets_ia_generadas/infografia_ecologico.jpg" alt="Infografía THERMOCORK" loading="lazy"></div>
+    <div class="copy"><strong>Copy:</strong><br>Si aún no te has decidido, aquí tienes 5 motivos sólidos para prescribir THERMOCORK en tu próximo proyecto.<br><br>#thermocork #5motivos #prescripcion #arquitectura #construccion #eficiencia</div>
+    <div class="vis"><strong>Visual:</strong> Carrusel de 5 slides con motivos para elegir THERMOCORK.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d21-ig">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 22</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 23</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">REAL</span>
+<h3>Madrid Nave Industrial: resultado final — Parte 3</h3>
+<small class="id">thermocork-m3d23-fb · Origen: REAL</small>
+</header>
+    <div class="video-real-banner">VIDEO REAL · Madrid Industrial Final</div>
+<div class="video-container">
+<video controls><source src="videos_reales/madrid_nave_industrial_techo_frio/WhatsApp Video 2026-06-03 at 20.04.08.mp4" type="video/mp4"></video>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Obra terminada en Madrid. Nave industrial con THERMOCORK TC MAX SRI 106 en cubierta. Menor temperatura interior, menor consumo de climatización y mayor confort para los trabajadores.<br><br>#thermocork #madrid #industria #resultado #techofrio #coolroof #arquitectura #eficienciaenergetica</div>
+    <div class="vis"><strong>Visual:</strong> Vídeo real del techo terminado con recorrido por el interior de la nave.</div>
+    <div class="propuesta"><strong>Propuesta:</strong> Añadir pantalla final con testimonio del responsable de mantenimiento.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d23-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 24</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 25</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 26</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Post</span>
+<span class="badge ok">REAL</span>
+<h3>Equipo THERMOCORK en obra: fotografía del día</h3>
+<small class="id">thermocork-m3d26-fb · Origen: REAL</small>
+</header>
+    <div class="imgs single">
+<img src="assets/thermocork-d28-fb/01_IMG_8683.JPG" alt="Imagen THERMOCORK"/>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>La calidad de THERMOCORK depende de quien lo aplica. Nuestros aplicadores certificados garantizan el espesor, la uniformidad y el acabado en cada proyecto.<br><br>#thermocork #equipo #aplicadores #certificacion #calidad #arquitectura #obra</div>
+    <div class="vis"><strong>Visual:</strong> Fotografía real de aplicadores THERMOCORK en acción.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d26-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 27</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 28</div>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 29</div>
+  <article class="card">
+    <header style="border-left:6px solid #1877F2">
+<span class="plat" style="background:#1877F2">Facebook</span>
+<span class="type">Video</span>
+<span class="badge ok">REAL</span>
+<h3>Restaurante Madrid: detalle de acabado — Parte 4</h3>
+<small class="id">thermocork-m3d29-fb · Origen: REAL</small>
+</header>
+    <div class="video-real-banner">VIDEO REAL · Restaurante Madrid Detalles</div>
+<div class="video-container">
+<video controls><source src="videos_reales/restaurante_madrid/WhatsApp Video 2026-06-03 at 20.07.31.mp4" type="video/mp4"></video>
+</div>
+    <div class="copy"><strong>Copy:</strong><br>Detalles que marcan la diferencia. Vídeo real del restaurante de Madrid mostrando la textura y el acabado de THERMOCORK en primer plano.<br><br>#thermocork #detalle #acabado #restaurante #madrid #interiorismo #calidad</div>
+    <div class="vis"><strong>Visual:</strong> Vídeo real con primeros planos de la textura de corcho en techo y paredes.</div>
+    <div class="propuesta"><strong>Propuesta:</strong> Corte para Reels de 15-30 segundos destacando textura.</div>
+    <div class="comments-section" data-post-id="thermocork-m3d29-fb">
+    <div class="comments-toggle" onclick="toggleComments(this)">
+      <span class="comments-count"><span class="dot"></span><span class="count-text">0 comentarios</span></span>
+      <span class="comments-arrow">&#9654;</span>
+    </div>
+    <div class="comments-content">
+      <div class="comments-list"></div>
+      <div class="comment-form">
+        <input type="text" class="comment-author" placeholder="Nombre del departamento de diseño" maxlength="50">
+        <textarea class="comment-text" placeholder="Escribe tu comentario para esta publicacion..." rows="2"></textarea>
+        <button onclick="addComment(this)">A&ntilde;adir comentario</button>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<div class="day-card">
+  <div class="day-header">Mes 3 — Día 30</div>
+</div>
+  </div>
+</section>
+
+<section class="general-comments-section" id="general-comments-section">
+  <h2>Comentarios Generales del Departamento de Dise&ntilde;o</h2>
+  <p style="color:#6b5e4b;font-size:.9rem;margin-bottom:12px;">Aqui puedes dejar comentarios globales sobre el calendario, estrategia, linea grafica o cualquier observacion que aplique a multiples publicaciones.</p>
+  <div class="comments-list" id="general-comments-list"></div>
+  <div class="comment-form" style="margin-top:12px;">
+    <input type="text" id="general-author" placeholder="Nombre del departamento de dise&ntilde;o" maxlength="50">
+    <textarea id="general-text" placeholder="Escribe un comentario general sobre el calendario..." rows="3"></textarea>
+    <button onclick="addGeneralComment()">A&ntilde;adir comentario general</button>
+  </div>
+</section>
+
+<div class="footer-note">Calendario THERMOCORK · 90 posts · 3 meses · 85 imágenes reales · 13 videos reales · Infografías generadas</div>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = 'thermocork_comments_v1';
+
+  function loadAll() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+    catch(e) { return {}; }
+  }
+  function saveAll(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function formatDate(ts) {
+    const d = new Date(ts);
+    return d.toLocaleString('es-ES', {day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'});
+  }
+
+  function renderCommentItem(c, container, key, index) {
+    const el = document.createElement('div');
+    el.className = 'comment-item';
+    el.innerHTML = '<div class="comment-meta"><span class="comment-author">' + escapeHtml(c.author || 'Anonimo') + '</span><span>' + formatDate(c.date) + '<span class="comment-delete" onclick="deleteComment('' + key + '',' + index + ')">Eliminar</span></span></div><div class="comment-text">' + escapeHtml(c.text) + '</div>';
+    container.appendChild(el);
+  }
+
+  window.toggleComments = function(btn) {
+    const section = btn.closest('.comments-section');
+    const content = section.querySelector('.comments-content');
+    const arrow = btn.querySelector('.comments-arrow');
+    const isOpen = content.classList.toggle('open');
+    arrow.classList.toggle('open', isOpen);
+    content.style.display = isOpen ? 'block' : 'none';
+  };
+
+  window.addComment = function(btn) {
+    const section = btn.closest('.comments-section');
+    const postId = section.getAttribute('data-post-id');
+    const authorInp = section.querySelector('.comment-author');
+    const textInp = section.querySelector('.comment-text');
+    const author = authorInp.value.trim();
+    const text = textInp.value.trim();
+    if (!text) { alert('Escribe un comentario.'); return; }
+    const data = loadAll();
+    if (!data[postId]) data[postId] = [];
+    data[postId].push({author: author || 'Departamento de Diseno', text: text, date: Date.now()});
+    saveAll(data);
+    authorInp.value = ''; textInp.value = '';
+    refreshComments();
+  };
+
+  window.addGeneralComment = function() {
+    const author = document.getElementById('general-author').value.trim();
+    const text = document.getElementById('general-text').value.trim();
+    if (!text) { alert('Escribe un comentario.'); return; }
+    const data = loadAll();
+    if (!data['_general']) data['_general'] = [];
+    data['_general'].push({author: author || 'Departamento de Diseno', text: text, date: Date.now()});
+    saveAll(data);
+    document.getElementById('general-author').value = '';
+    document.getElementById('general-text').value = '';
+    refreshComments();
+  };
+
+  window.deleteComment = function(key, index) {
+    if (!confirm('Eliminar este comentario?')) return;
+    const data = loadAll();
+    if (data[key]) {
+      data[key].splice(index, 1);
+      if (data[key].length === 0) delete data[key];
+      saveAll(data);
+      refreshComments();
+    }
+  };
+
+  function refreshComments() {
+    const data = loadAll();
+    // Posts
+    document.querySelectorAll('.comments-section[data-post-id]').forEach(function(sec){
+      const postId = sec.getAttribute('data-post-id');
+      const list = sec.querySelector('.comments-list');
+      const countSpan = sec.querySelector('.comments-count');
+      const countText = sec.querySelector('.count-text');
+      list.innerHTML = '';
+      const comments = data[postId] || [];
+      comments.forEach(function(c, i){ renderCommentItem(c, list, postId, i); });
+      countText.textContent = comments.length + ' comentario' + (comments.length !== 1 ? 's' : '');
+      countSpan.classList.toggle('has-comments', comments.length > 0);
+    });
+    // General
+    const genList = document.getElementById('general-comments-list');
+    if (genList) {
+      genList.innerHTML = '';
+      const gen = data['_general'] || [];
+      gen.forEach(function(c, i){ renderCommentItem(c, genList, '_general', i); });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', refreshComments);
+})();
+</script>
+
+</body>
+</html>
