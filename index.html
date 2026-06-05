@@ -2933,125 +2933,179 @@
 <div class="footer-note">Calendario THERMOCORK · 90 posts · 3 meses · 85 imágenes reales · 13 videos reales · Infografías generadas</div>
 </div>
 
-<script>
-(function(){
-  const STORAGE_KEY = 'thermocork_comments_v1';
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+import { getDatabase, ref, push, onValue, remove, off } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
-  function loadAll() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
-    catch(e) { return {}; }
-  }
-  function saveAll(data) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
-    catch(e) { console.error('Error guardando en localStorage:', e); }
-  }
+const firebaseConfig = {
+  apiKey: "AIzaSyD9_4Le13Eg3Rnl-SHBOtcKkUCZ5g2edVM",
+  authDomain: "calendario-thermo.firebaseapp.com",
+  projectId: "calendario-thermo",
+  storageBucket: "calendario-thermo.firebasestorage.app",
+  messagingSenderId: "745219787620",
+  appId: "1:745219787620:web:a4c85a2fc64f216e254871",
+  measurementId: "G-YMTCLPK4BZ"
+};
 
-  function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-  }
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-  function formatDate(ts) {
-    const d = new Date(ts);
-    return d.toLocaleString('es-ES', {day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'});
-  }
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
 
-  function renderCommentItem(c, container, key, index) {
-    const el = document.createElement('div');
-    el.className = 'comment-item';
-    var deleteAttr = 'onclick="deleteComment(\'' + escapeHtml(key) + '\',' + index + ')"';
-    el.innerHTML = '<div class="comment-meta"><span class="comment-author">' + escapeHtml(c.author || 'Anonimo') + '</span><span>' + formatDate(c.date) + ' <span class="comment-delete" ' + deleteAttr + '>Eliminar</span></span></div><div class="comment-text">' + escapeHtml(c.text) + '</div>';
-    container.appendChild(el);
-  }
+function formatDate(ts) {
+  const d = new Date(ts);
+  return d.toLocaleString('es-ES', {day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'});
+}
 
-  window.toggleComments = function(btn) {
-    const section = btn.closest('.comments-section');
-    const content = section.querySelector('.comments-content');
-    const arrow = btn.querySelector('.comments-arrow');
-    const isOpen = content.classList.toggle('open');
-    arrow.classList.toggle('open', isOpen);
-  };
-
-  window.addComment = function(btn) {
-    try {
-      const section = btn.closest('.comments-section');
-      const postId = section.getAttribute('data-post-id');
-      const authorInp = section.querySelector('.comment-author');
-      const textInp = section.querySelector('.comment-text');
-      const author = authorInp.value.trim();
-      const text = textInp.value.trim();
-      if (!text) { alert('Escribe un comentario.'); return; }
-      const data = loadAll();
-      if (!data[postId]) data[postId] = [];
-      data[postId].push({author: author || 'Departamento de Diseno', text: text, date: Date.now()});
-      saveAll(data);
-      authorInp.value = ''; textInp.value = '';
-      refreshComments();
-    } catch(e) {
-      console.error('Error al anadir comentario:', e);
-      alert('Error al guardar el comentario. Revisa la consola (F12) para mas detalles.');
-    }
-  };
-
-  window.addGeneralComment = function() {
-    try {
-      const author = document.getElementById('general-author').value.trim();
-      const text = document.getElementById('general-text').value.trim();
-      if (!text) { alert('Escribe un comentario.'); return; }
-      const data = loadAll();
-      if (!data['_general']) data['_general'] = [];
-      data['_general'].push({author: author || 'Departamento de Diseno', text: text, date: Date.now()});
-      saveAll(data);
-      document.getElementById('general-author').value = '';
-      document.getElementById('general-text').value = '';
-      refreshComments();
-    } catch(e) {
-      console.error('Error al anadir comentario general:', e);
-      alert('Error al guardar el comentario. Revisa la consola (F12) para mas detalles.');
-    }
-  };
-
-  window.deleteComment = function(key, index) {
+function renderCommentItem(c, container, postId, commentKey) {
+  const el = document.createElement('div');
+  el.className = 'comment-item';
+  el.innerHTML = '<div class="comment-meta"><span class="comment-author">' + escapeHtml(c.author || 'Anonimo') + '</span><span>' + formatDate(c.date) + ' <span class="comment-delete">Eliminar</span></span></div><div class="comment-text">' + escapeHtml(c.text) + '</div>';
+  el.querySelector('.comment-delete').addEventListener('click', function(){
     if (!confirm('Eliminar este comentario?')) return;
-    const data = loadAll();
-    if (data[key]) {
-      data[key].splice(index, 1);
-      if (data[key].length === 0) delete data[key];
-      saveAll(data);
-      refreshComments();
-    }
-  };
+    remove(ref(db, 'comments/' + postId + '/' + commentKey));
+  });
+  container.appendChild(el);
+}
 
-  function refreshComments() {
-    const data = loadAll();
-    // Posts
-    document.querySelectorAll('.comments-section[data-post-id]').forEach(function(sec){
-      const postId = sec.getAttribute('data-post-id');
-      const list = sec.querySelector('.comments-list');
-      const countSpan = sec.querySelector('.comments-count');
-      const countText = sec.querySelector('.count-text');
-      list.innerHTML = '';
-      const comments = data[postId] || [];
-      comments.forEach(function(c, i){ renderCommentItem(c, list, postId, i); });
-      countText.textContent = comments.length + ' comentario' + (comments.length !== 1 ? 's' : '');
-      countSpan.classList.toggle('has-comments', comments.length > 0);
-    });
-    // General
+function renderGeneralItem(c, container, commentKey) {
+  const el = document.createElement('div');
+  el.className = 'comment-item';
+  el.innerHTML = '<div class="comment-meta"><span class="comment-author">' + escapeHtml(c.author || 'Anonimo') + '</span><span>' + formatDate(c.date) + ' <span class="comment-delete">Eliminar</span></span></div><div class="comment-text">' + escapeHtml(c.text) + '</div>';
+  el.querySelector('.comment-delete').addEventListener('click', function(){
+    if (!confirm('Eliminar este comentario?')) return;
+    remove(ref(db, 'general_comments/' + commentKey));
+  });
+  container.appendChild(el);
+}
+
+// Estado de conexion
+const statusEl = document.createElement('div');
+statusEl.style.cssText = 'position:fixed;bottom:12px;right:12px;padding:6px 12px;border-radius:20px;font-size:.75rem;font-weight:700;z-index:9999;transition:background .3s;';
+function setStatus(ok, msg) {
+  statusEl.textContent = msg;
+  statusEl.style.background = ok ? '#d1fae5' : '#fee2e2';
+  statusEl.style.color = ok ? '#065f46' : '#991b1b';
+}
+setStatus(false, 'Conectando a Firebase...');
+document.body.appendChild(statusEl);
+
+// Conectar listeners una sola vez
+const listeners = {};
+
+function attachPostListener(postId, list, countSpan, countText) {
+  if (listeners[postId]) return;
+  const postRef = ref(db, 'comments/' + postId);
+  listeners[postId] = postRef;
+  onValue(postRef, function(snapshot){
+    list.innerHTML = '';
+    const val = snapshot.val() || {};
+    const keys = Object.keys(val).sort(function(a,b){ return (val[a].date||0) - (val[b].date||0); });
+    keys.forEach(function(k){ renderCommentItem(val[k], list, postId, k); });
+    countText.textContent = keys.length + ' comentario' + (keys.length !== 1 ? 's' : '');
+    countSpan.classList.toggle('has-comments', keys.length > 0);
+    setStatus(true, 'Firebase conectado');
+  }, function(err){
+    console.error('Firebase error:', err);
+    setStatus(false, 'Error Firebase (revisa reglas DB)');
+  });
+}
+
+// General comments
+let generalAttached = false;
+function attachGeneralListener() {
+  if (generalAttached) return;
+  generalAttached = true;
+  const genRef = ref(db, 'general_comments');
+  onValue(genRef, function(snapshot){
     const genList = document.getElementById('general-comments-list');
-    if (genList) {
-      genList.innerHTML = '';
-      const gen = data['_general'] || [];
-      gen.forEach(function(c, i){ renderCommentItem(c, genList, '_general', i); });
-    }
-  }
+    if (!genList) return;
+    genList.innerHTML = '';
+    const val = snapshot.val() || {};
+    const keys = Object.keys(val).sort(function(a,b){ return (val[a].date||0) - (val[b].date||0); });
+    keys.forEach(function(k){ renderGeneralItem(val[k], genList, k); });
+    setStatus(true, 'Firebase conectado');
+  }, function(err){
+    console.error('Firebase error:', err);
+    setStatus(false, 'Error Firebase (revisa reglas DB)');
+  });
+}
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', refreshComments);
-  } else {
-    refreshComments();
+// Toggle
+window.toggleComments = function(btn) {
+  const section = btn.closest('.comments-section');
+  const content = section.querySelector('.comments-content');
+  const arrow = btn.querySelector('.comments-arrow');
+  const isOpen = content.classList.toggle('open');
+  arrow.classList.toggle('open', isOpen);
+  // Activar listener la primera vez que se abre
+  if (isOpen && section.hasAttribute('data-post-id')) {
+    const postId = section.getAttribute('data-post-id');
+    const list = section.querySelector('.comments-list');
+    const countSpan = section.querySelector('.comments-count');
+    const countText = section.querySelector('.count-text');
+    attachPostListener(postId, list, countSpan, countText);
   }
-})();
+};
+
+// Add comment
+window.addComment = function(btn) {
+  try {
+    const section = btn.closest('.comments-section');
+    const postId = section.getAttribute('data-post-id');
+    const authorInp = section.querySelector('.comment-author');
+    const textInp = section.querySelector('.comment-text');
+    const author = authorInp.value.trim();
+    const text = textInp.value.trim();
+    if (!text) { alert('Escribe un comentario.'); return; }
+    push(ref(db, 'comments/' + postId), {
+      author: author || 'Departamento de Diseno',
+      text: text,
+      date: Date.now()
+    });
+    authorInp.value = ''; textInp.value = '';
+  } catch(e) {
+    console.error('Error al anadir comentario:', e);
+    alert('Error al guardar. Revisa la consola (F12).');
+  }
+};
+
+// Add general comment
+window.addGeneralComment = function() {
+  try {
+    const author = document.getElementById('general-author').value.trim();
+    const text = document.getElementById('general-text').value.trim();
+    if (!text) { alert('Escribe un comentario.'); return; }
+    push(ref(db, 'general_comments'), {
+      author: author || 'Departamento de Diseno',
+      text: text,
+      date: Date.now()
+    });
+    document.getElementById('general-author').value = '';
+    document.getElementById('general-text').value = '';
+  } catch(e) {
+    console.error('Error al anadir comentario general:', e);
+    alert('Error al guardar. Revisa la consola (F12).');
+  }
+};
+
+// Delete placeholder para compatibilidad (ya no se usa directamente)
+window.deleteComment = function(){};
+
+// Inicializar
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function(){
+    // Activar listener general
+    attachGeneralListener();
+    // Los de posts se activan al abrir cada seccion
+  });
+} else {
+  attachGeneralListener();
+}
 </script>
 
 </body>
