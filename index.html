@@ -66,8 +66,8 @@
   .comments-count.has-comments .dot { display:inline-block; }
   .comments-arrow { font-size:.7rem; transition:transform .2s; }
   .comments-arrow.open { transform:rotate(90deg); }
-  .comments-content { display:none; padding-top:8px; }
-  .comments-content.open { display:block; }
+  .comments-content { max-height:0; overflow:hidden; padding-top:0; transition:max-height .3s ease; }
+  .comments-content.open { max-height:600px; padding-top:8px; }
 
   .comments-list { display:flex; flex-direction:column; gap:8px; margin-bottom:10px; max-height:240px; overflow-y:auto; }
   .comment-item { background:#fff; border:1px solid #e8e0d0; border-radius:8px; padding:8px 10px; font-size:.82rem; }
@@ -2942,7 +2942,8 @@
     catch(e) { return {}; }
   }
   function saveAll(data) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+    catch(e) { console.error('Error guardando en localStorage:', e); }
   }
 
   function escapeHtml(text) {
@@ -2959,7 +2960,8 @@
   function renderCommentItem(c, container, key, index) {
     const el = document.createElement('div');
     el.className = 'comment-item';
-    el.innerHTML = '<div class="comment-meta"><span class="comment-author">' + escapeHtml(c.author || 'Anonimo') + '</span><span>' + formatDate(c.date) + '<span class="comment-delete" onclick="deleteComment('' + key + '',' + index + ')">Eliminar</span></span></div><div class="comment-text">' + escapeHtml(c.text) + '</div>';
+    var deleteAttr = 'onclick="deleteComment(\'' + escapeHtml(key) + '\',' + index + ')"';
+    el.innerHTML = '<div class="comment-meta"><span class="comment-author">' + escapeHtml(c.author || 'Anonimo') + '</span><span>' + formatDate(c.date) + ' <span class="comment-delete" ' + deleteAttr + '>Eliminar</span></span></div><div class="comment-text">' + escapeHtml(c.text) + '</div>';
     container.appendChild(el);
   }
 
@@ -2969,36 +2971,45 @@
     const arrow = btn.querySelector('.comments-arrow');
     const isOpen = content.classList.toggle('open');
     arrow.classList.toggle('open', isOpen);
-    content.style.display = isOpen ? 'block' : 'none';
   };
 
   window.addComment = function(btn) {
-    const section = btn.closest('.comments-section');
-    const postId = section.getAttribute('data-post-id');
-    const authorInp = section.querySelector('.comment-author');
-    const textInp = section.querySelector('.comment-text');
-    const author = authorInp.value.trim();
-    const text = textInp.value.trim();
-    if (!text) { alert('Escribe un comentario.'); return; }
-    const data = loadAll();
-    if (!data[postId]) data[postId] = [];
-    data[postId].push({author: author || 'Departamento de Diseno', text: text, date: Date.now()});
-    saveAll(data);
-    authorInp.value = ''; textInp.value = '';
-    refreshComments();
+    try {
+      const section = btn.closest('.comments-section');
+      const postId = section.getAttribute('data-post-id');
+      const authorInp = section.querySelector('.comment-author');
+      const textInp = section.querySelector('.comment-text');
+      const author = authorInp.value.trim();
+      const text = textInp.value.trim();
+      if (!text) { alert('Escribe un comentario.'); return; }
+      const data = loadAll();
+      if (!data[postId]) data[postId] = [];
+      data[postId].push({author: author || 'Departamento de Diseno', text: text, date: Date.now()});
+      saveAll(data);
+      authorInp.value = ''; textInp.value = '';
+      refreshComments();
+    } catch(e) {
+      console.error('Error al anadir comentario:', e);
+      alert('Error al guardar el comentario. Revisa la consola (F12) para mas detalles.');
+    }
   };
 
   window.addGeneralComment = function() {
-    const author = document.getElementById('general-author').value.trim();
-    const text = document.getElementById('general-text').value.trim();
-    if (!text) { alert('Escribe un comentario.'); return; }
-    const data = loadAll();
-    if (!data['_general']) data['_general'] = [];
-    data['_general'].push({author: author || 'Departamento de Diseno', text: text, date: Date.now()});
-    saveAll(data);
-    document.getElementById('general-author').value = '';
-    document.getElementById('general-text').value = '';
-    refreshComments();
+    try {
+      const author = document.getElementById('general-author').value.trim();
+      const text = document.getElementById('general-text').value.trim();
+      if (!text) { alert('Escribe un comentario.'); return; }
+      const data = loadAll();
+      if (!data['_general']) data['_general'] = [];
+      data['_general'].push({author: author || 'Departamento de Diseno', text: text, date: Date.now()});
+      saveAll(data);
+      document.getElementById('general-author').value = '';
+      document.getElementById('general-text').value = '';
+      refreshComments();
+    } catch(e) {
+      console.error('Error al anadir comentario general:', e);
+      alert('Error al guardar el comentario. Revisa la consola (F12) para mas detalles.');
+    }
   };
 
   window.deleteComment = function(key, index) {
@@ -3035,7 +3046,11 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', refreshComments);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', refreshComments);
+  } else {
+    refreshComments();
+  }
 })();
 </script>
 
